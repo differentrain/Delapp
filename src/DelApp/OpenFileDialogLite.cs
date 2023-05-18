@@ -57,18 +57,14 @@ namespace DelApp
             int itemIconIdx;
             if (fd.IsFile)
             {
-                if (s_mpath == fd.FullPath)
-                    return;
                 itemIconIdx = FILE_ICON_INDEX;
-                if (check && ListViewContainsFile(listview, fd.FullPath))
+                if (check && (s_mpath == fd.FullPath || ListViewContainsFile(listview, fd.FullPath)))
                     return;
             }
             else
             {
-                if (s_mpath.StartsWith(fd.FullPath))
-                    return;
                 itemIconIdx = DIR_ICON_INDEX;
-                if (check && ListViewContainsDir(listview, fd.FullPath))
+                if (check && (s_mpath.StartsWith(fd.FullPath) || ListViewContainsDir(listview, fd.FullPath)))
                     return;
             }
 
