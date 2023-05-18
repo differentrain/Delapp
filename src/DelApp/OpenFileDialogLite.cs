@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 
@@ -15,6 +16,8 @@ namespace DelApp
     {
         private const int FILE_ICON_INDEX = 0;
         private const int DIR_ICON_INDEX = 1;
+
+        private static readonly string s_mpath = Application.ExecutablePath;
 
         private readonly FileNDir _defaultDir;
         private FileNDir _currentDir;
@@ -54,12 +57,16 @@ namespace DelApp
             int itemIconIdx;
             if (fd.IsFile)
             {
+                if (s_mpath == fd.FullPath)
+                    return;
                 itemIconIdx = FILE_ICON_INDEX;
                 if (check && ListViewContainsFile(listview, fd.FullPath))
                     return;
             }
             else
             {
+                if (s_mpath.StartsWith(fd.FullPath))
+                    return;
                 itemIconIdx = DIR_ICON_INDEX;
                 if (check && ListViewContainsDir(listview, fd.FullPath))
                     return;

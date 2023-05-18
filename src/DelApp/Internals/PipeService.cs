@@ -77,11 +77,7 @@ namespace DelApp.Internals
                                 {
                                     len = *(int*)p;
                                     if (pipeServer.Read(buffer, 0, len) == len)
-                                    {
-                                        path = Encoding.Unicode.GetString(buffer, 0, len);
-                                        if (path != Application.ExecutablePath)
-                                            PathQueue.Enqueue(new FileNDir(path));
-                                      }
+                                        PathQueue.Enqueue(new FileNDir(Encoding.Unicode.GetString(buffer, 0, len)));
                                 }
                                 PathRecived?.Invoke(PathQueue, EventArgs.Empty);
                             }

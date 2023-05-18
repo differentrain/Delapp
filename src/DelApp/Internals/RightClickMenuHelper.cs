@@ -28,9 +28,9 @@ namespace DelApp.Internals
             using (RegistryKey regRoot0 = Registry.ClassesRoot.OpenSubKey("Directory\\shell", true),
                 regRoot1 = Registry.ClassesRoot.OpenSubKey("*\\shell", true))
             {
-                if (!GetHasRrghtMenuCore(regRoot0))
+                if (!GetHasRightMenuCore(regRoot0))
                     return false;
-                else if (!GetHasRrghtMenuCore(regRoot1))
+                else if (!GetHasRightMenuCore(regRoot1))
                 {
                     RemoveRightClickMenuCore(regRoot0);
                     return false;
@@ -41,7 +41,7 @@ namespace DelApp.Internals
         }
 
 
-        private static bool GetHasRrghtMenuCore(RegistryKey regRoot)
+        private static bool GetHasRightMenuCore(RegistryKey regRoot)
         {
             using (RegistryKey regshell = regRoot?.OpenSubKey(Utils.MyGuidString, true))
             {
