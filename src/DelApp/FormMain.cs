@@ -57,6 +57,7 @@ namespace DelApp
                 OpenFileDialogLite.TryAddToList(ListViewMain, new FileNDir(item));
             }
             ListViewMain.EndUpdate();
+            EnsureButtonForHoleList();
 
             IAppLanguageProvider lp = AppLanguageService.LanguageProvider;
 
