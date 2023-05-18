@@ -1,6 +1,6 @@
 # Delapp
 
-[¼òÌåÖĞÎÄ](./README_cn.md)
+[ç®€ä½“ä¸­æ–‡](./README_cn.md)
 
 A simple tool to delete files and folders in Windows.
 
