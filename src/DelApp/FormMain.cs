@@ -51,12 +51,12 @@ namespace DelApp
                 ToolStripMenuItemRightClickContextMenu.CheckedChanged += ToolStripMenuItemRightClickContextMenu_CheckedChanged;
             }
 
-            if (Program.FilePath != null)
+            ListViewMain.BeginUpdate();
+            foreach (var item in Program.FilePathes)
             {
-                ListViewMain.BeginUpdate();
-                OpenFileDialogLite.TryAddToList(ListViewMain, new FileNDir(Program.FilePath));
-                ListViewMain.EndUpdate();
+                OpenFileDialogLite.TryAddToList(ListViewMain, new FileNDir(item));
             }
+            ListViewMain.EndUpdate();
 
             IAppLanguageProvider lp = AppLanguageService.LanguageProvider;
 
@@ -76,15 +76,19 @@ namespace DelApp
 
         }
 
-        private void PipeService_PathRecived(object sender, FileNDir e)
+        private void PipeService_PathRecived(object sender, EventArgs e)
         {
-            if (ListViewMain.Enabled && PipeService.PathQueue.TryDequeue(out FileNDir fd))
-            {
-                ListViewMain.BeginUpdate();
+            if (ListViewMain.Enabled)
+                AddPipeSendedFile();
+        }
+
+        private void AddPipeSendedFile()
+        {
+            ListViewMain.BeginUpdate();
+            while (PipeService.PathQueue.TryDequeue(out FileNDir fd))
                 OpenFileDialogLite.TryAddToList(ListViewMain, fd);
-                ListViewMain.EndUpdate();
-                EnsureButtonForHoleList();
-            }
+            ListViewMain.EndUpdate();
+            EnsureButtonForHoleList();
         }
 
         private void ToolStripMenuItemExitApp_Click(object sender, EventArgs e)
@@ -219,13 +223,13 @@ namespace DelApp
             }
             else
             {
-                MessageBox.Show(AppLanguageService.LanguageProvider.Message_FailToFixPath);
+                MessageBox.Show(AppLanguageService.LanguageProvider.Message_FailToFixPath, "Delapp");
             }
         }
 
         private void ToolStripButtonDelete_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(AppLanguageService.LanguageProvider.Message_Confirmation, "Del App", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(AppLanguageService.LanguageProvider.Message_Confirmation, "Delapp", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 ToolStripDropDownButtonFile.Enabled = false;
                 ToolStripDropDownButtonEdit.Enabled = false;
@@ -249,8 +253,6 @@ namespace DelApp
                 FastDel(e);
             else
                 NormalDel(e);
-
-
         }
 
         private void FastDel(DoWorkEventArgs e)
@@ -379,19 +381,12 @@ namespace DelApp
             ToolStripDropDownButtonFile.Enabled = true;
             ToolStripDropDownButtonEdit.Enabled = true;
             ListViewMain.Enabled = true;
-            ListViewMain.BeginUpdate();
-            while (PipeService.PathQueue.Count > 0)
-            {
-                if (PipeService.PathQueue.TryDequeue(out FileNDir fd))
-                    OpenFileDialogLite.TryAddToList(ListViewMain, fd);
-            }
-            ListViewMain.EndUpdate();
-            EnsureButtonForHoleList();
+            AddPipeSendedFile();
         }
 
         private void ToolStripMenuItemSource_Click(object sender, EventArgs e)
         {
-            Process.Start("https://www.baidu.com").Dispose();
+            Process.Start("https://github.com/differentrain/Delapp").Dispose();
         }
     }
 }

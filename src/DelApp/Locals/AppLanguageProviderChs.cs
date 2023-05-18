@@ -28,7 +28,7 @@
         public override string UI_OpenDialog_FastAccess_Document => "我的文档";
         public override string UI_OpenDialog_Drives => "驱动器";
 
-        public override string Shell_RightClickContextText => "加入 DelApp 删除列表";
+        public override string Shell_RightClickContextText => "加入 Delapp 删除列表";
 
         public override string Message_FailToFixPath => "修复路径失败。";
         public override string Message_Confirmation => "我知道我在干啥。";

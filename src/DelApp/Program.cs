@@ -1,6 +1,7 @@
 ﻿using DelApp.Internals;
 using DelApp.Locals;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -9,7 +10,7 @@ namespace DelApp
     internal static class Program
     {
 
-        public static string FilePath;
+        public static IEnumerable<string> FilePathes;
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -19,21 +20,20 @@ namespace DelApp
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            InternelDriveInfo.RefreshDriveCache();
-            string[] args = Environment.GetCommandLineArgs();
-            string fullPath = args.Length > 1 ? FileNDir.GetFullPath(args[1]) : null;
+
+
 
             using (var mutex = new Mutex(true, Utils.MyGuidString, out bool createdNew))
             {
                 if (createdNew)
                 {
-                    FilePath = fullPath;
+                    FilePathes = GetPathes();
                     if (PipeService.CreateService())
                         StartApp();
                 }
-                else if (fullPath != null)
+                else
                 {
-                    PipeService.SendPath(fullPath);
+                    PipeService.SendPath(GetPathes());
                 }
             }
         }
@@ -53,7 +53,20 @@ namespace DelApp
             SoundPlayHelper.ReleaseSharedInstance();
         }
 
-
+        static IEnumerable<string> GetPathes()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length == 1)
+                yield break;
+            string path;
+            InternelDriveInfo.RefreshDriveCache();
+            for (int i = 1; i < args.Length; i++)
+            {
+                path = FileNDir.GetFullPath(args[i]);
+                if (path != null)
+                    yield return path;
+            }
+        }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) => Utils.WriteErrorLog(e.ExceptionObject.ToString());
 

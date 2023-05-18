@@ -28,7 +28,7 @@
         public override string UI_OpenDialog_FastAccess_Document => "My Documents";
         public override string UI_OpenDialog_Drives => "Drives";
 
-        public override string Shell_RightClickContextText => "DelApp - Add to delete-list";
+        public override string Shell_RightClickContextText => "Delapp - Add to delete-list";
 
         public override string Message_FailToFixPath => "Fail to fix path.";
         public override string Message_Confirmation => "I know what I want to do.";
