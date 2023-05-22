@@ -18,8 +18,14 @@ namespace DelApp.Internals
             {
                 // returns null if not found.
                 string soundPath = GetSoundPath();
-                _player = soundPath == null ? null : new SoundPlayer(soundPath);
-                _player.Load();
+
+                if (soundPath != null)
+                {
+                    _player = new SoundPlayer(soundPath);
+                    _player.Load();
+                }
+
+             
             }
             catch (Exception ecx)
             {
@@ -52,7 +58,7 @@ namespace DelApp.Internals
         }
 
 
-        protected override void DisposeManaged() => _player.Dispose();
+        protected override void DisposeManaged() => _player?.Dispose();
 
         protected override void DisposeUnmanaged() => _player = null;
 
