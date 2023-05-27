@@ -11,7 +11,7 @@ A simple tool to delete files and folders in Windows.
 
 ## Getting Started
 
-Delapp is a single-file app, no installation required, just [download lastest release version](https://github.com/differentrain/Delapp/releases/latest/download/Delapp.zip), and extract it into wherever you want.
+Delapp is a single-file app, no installation required, just [download latest release version](https://github.com/differentrain/Delapp/releases/latest/download/Delapp.zip), and extract it into wherever you want.
 
 ![](./img/Main01_en.png)
 
