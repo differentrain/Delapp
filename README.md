@@ -47,7 +47,7 @@ md test..\
 
 Then you get a folder named `test..`, which can not be deleted in general ways.
 
-Don't worry,  this command chould remove the tiresome folder:
+Don't worry,  this command could remove the tiresome folder:
 
 ```
 rd test..\
